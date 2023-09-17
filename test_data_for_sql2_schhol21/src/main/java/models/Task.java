@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.Locale;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -13,6 +15,13 @@ public class Task  extends AbstractRecord{
     private String title;
     private String parent_task;
     private int max_xp;
+
+    public boolean isCheckedByVerter() {
+        return title.length() > 1
+                && title.toLowerCase(Locale.ROOT).startsWith("c")
+                && title.charAt(1) >= '0'
+                && title.charAt(1) <= '9';
+    }
 }
 
 /*
