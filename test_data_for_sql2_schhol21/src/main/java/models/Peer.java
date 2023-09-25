@@ -14,6 +14,11 @@ import java.time.LocalDate;
 public class Peer extends AbstractRecord{
     private String nickName;
     private LocalDate birthday;
+
+    @Override
+    public String getTableName() {
+        return "peers";
+    }
 }
 
 /*

@@ -40,7 +40,11 @@ public class GenContext {
     private Map<Peer, PeerInfo> peersInfo;
 
     public GenContext() throws Exception {
-        random = new Random();
+        this(null);
+    }
+
+    public GenContext(Long randomSeed) throws Exception {
+        random =  randomSeed == null ? new Random() : new Random(randomSeed);
         peerList = ImportFromCsv.importFromFile("peers.csv", Peer.class);
         taskList = ImportFromCsv.importFromFile("tasks.csv", Task.class);
         checkList = new ArrayList<>();
@@ -55,6 +59,7 @@ public class GenContext {
             peersInfo.put(peer, new PeerInfo());
         }
     }
+
     @Data
     public static class PeerInfo {
         private int nextIncompleteTaskIndex;

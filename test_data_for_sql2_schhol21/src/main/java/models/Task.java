@@ -18,9 +18,14 @@ public class Task  extends AbstractRecord{
 
     public boolean isCheckedByVerter() {
         return title.length() > 1
-                && title.toLowerCase(Locale.ROOT).startsWith("c")
-                && title.charAt(1) >= '0'
-                && title.charAt(1) <= '9';
+                && title.toLowerCase(Locale.ROOT).startsWith("c_")
+                && title.charAt(2) >= '0'
+                && title.charAt(2) <= '9';
+    }
+
+    @Override
+    public String getTableName() {
+        return "tasks";
     }
 }
 

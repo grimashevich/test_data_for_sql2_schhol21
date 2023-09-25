@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class P2p extends AbstractRecord{
     private long id;
-    private long check_id;
+    private long checks_id;
     private String checking_peer;
     private String state;
     private LocalTime check_time;

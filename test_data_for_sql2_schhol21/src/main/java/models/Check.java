@@ -16,6 +16,11 @@ public class Check extends AbstractRecord {
     private String peer;
     private String task;
     private LocalDate check_date;
+
+    @Override
+    public String getTableName() {
+        return "checks";
+    }
 }
 
 /*

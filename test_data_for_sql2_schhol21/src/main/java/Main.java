@@ -1,5 +1,8 @@
 import models.*;
+import services.CsvWriter;
 import services.Generator;
+import services.InsertSqlWriter;
+import services.RecordListToRecordStringListConverter;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -19,13 +22,24 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-
-
-        GenContext context = new GenContext();
+        GenContext context = new GenContext(42L);
         Generator generator = new Generator(context);
         generator.generate();
-        System.out.println(context.getP2pList());
+        List<RecordStringList> recordStringLists = new LinkedList<>();
+        recordStringLists.add(RecordListToRecordStringListConverter.convert(context.getPeerList()));
+        recordStringLists.add(RecordListToRecordStringListConverter.convert(context.getTaskList()));
+        recordStringLists.add(RecordListToRecordStringListConverter.convert(context.getCheckList()));
+        recordStringLists.add(RecordListToRecordStringListConverter.convert(context.getP2pList()));
+        recordStringLists.add(RecordListToRecordStringListConverter.convert(context.getVerterList()));
+        recordStringLists.add(RecordListToRecordStringListConverter.convert(context.getXpList()));
+        recordStringLists.add(RecordListToRecordStringListConverter.convert(context.getFriendsList()));
+        recordStringLists.add(RecordListToRecordStringListConverter.convert(context.getRecommendationsList()));
+        recordStringLists.add(RecordListToRecordStringListConverter.convert(context.getTimeTrackingList()));
 
+        InsertSqlWriter.writeInserts(recordStringLists, "C:\\Users\\user\\Desktop\\SQL1\\SQL2_Info21\\src\\part1_1_INSERTS.sql");
+        CsvWriter.writeCsv(recordStringLists, "C:\\Users\\user\\Desktop\\SQL1\\SQL2_Info21\\src\\CSV");
+
+        System.out.println("done");
     }
 
     public static <T> void printList(List<T> list) {
@@ -107,5 +121,3 @@ public class Main {
     }
 
 }
-
-// todo Мини-генератор CSV для тасок

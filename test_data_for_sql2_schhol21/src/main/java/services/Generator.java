@@ -89,7 +89,7 @@ public class Generator {
             int friendCount = context.getFriendsCount(peer);
             for (int i = Math.max(0, random.nextInt(15) - friendCount); i > 0;) {
                 Peer friendPeer = context.getPeerList().get(random.nextInt(context.getPeerList().size()));
-                if (context.isTheyFriends(peer, friendPeer)) {
+                if (peer.equals(friendPeer) || context.isTheyFriends(peer, friendPeer)) {
                     continue;
                 }
                 Friends friends = peer.getNickName().compareTo(friendPeer.getNickName()) < 0 ?
@@ -102,7 +102,7 @@ public class Generator {
             /* Генерим рекомендации */
             for (int i = Math.max(0, random.nextInt(20)); i > 0;) {
                 Peer recommendedPeer = context.getPeerList().get(random.nextInt(context.getPeerList().size()));
-                if (context.isThereRecommendation(peer, recommendedPeer)) {
+                if (peer.equals(recommendedPeer) || context.isThereRecommendation(peer, recommendedPeer)) {
                     continue;
                 }
                 Recommendations r = new Recommendations(Recommendations.getNextId(Recommendations.class),
@@ -166,7 +166,7 @@ public class Generator {
                 );
         P2p secondP2p = new P2p(
                 P2p.getNextId(P2p.class),
-                firstP2p.getCheck_id(),
+                firstP2p.getChecks_id(),
                 firstP2p.getChecking_peer(),
                 state,
                 secondP2pCheckTime
@@ -196,7 +196,7 @@ public class Generator {
 
     private void addXp(Task task, Check check) {
         int xpAmount = random.nextInt(10) >= 7 ? task.getMax_xp()
-                : random.nextInt((int) (task.getMax_xp() * 0.8), task.getMax_xp());
+                : random.nextInt((int) (task.getMax_xp() * 0.5), task.getMax_xp());
         context.getXpList().add(new Xp(Xp.getNextId(Xp.class), check.getId(), xpAmount));
     }
 
@@ -225,7 +225,7 @@ public class Generator {
             timeList.add(time.plusSeconds(random.nextInt(secondsPerDay)));
         }
         Collections.sort(timeList);
-        for (int i = 0; i < inOutCount; i++) {
+        for (int i = 0; i < inOutCount; i += 2) {
             context.getTimeTrackingList().add(
                     new TimeTracking(TimeTracking.getNextId(TimeTracking.class),  peer.getNickName(),  date,
                             timeList.get(i),1));
